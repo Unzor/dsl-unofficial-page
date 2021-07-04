@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
+  <script src="vm.js"></script>
+  <div id="outer_content">
   <div id="content">
     
     <div style="z-index: -9999999999999;">
@@ -21,18 +23,89 @@
 <obj class="lightish-red" style="z-index: -9999999999999;"></obj>
 <obj class="pink" style="z-index: -9999999999999;"></obj>
       </div>
-    
     <div id="header" style="z-index: 9999999;">
-      <img style="width:60px; height: 60px;" src="img/dsl_logo.png" alt="DSL logo"/> 
+      <img style="width:60px; height: 60px;" src="dsl_logo.png" alt="DSL logo"/> 
       Damn Small Linux
-    <a href="download" style="font-size: 15px; left: 20%; color: orange;">Download</a>
+    <a href="/download" style="font-size: 15px; left: 20%; color: orange;">Download</a>
     </div>
 <div style="margin-top:200px;font-size:50px;color:orange;text-align:center;">
-Download Damn Small Linux
+Damn Small Linux is a graphical Linux distribution with 2.4 kernel.
+  <div>
+    
+    <div style="background-color: #1a1a1a;margin-top:300px;font-size:30px;color:orange;text-align:center;border-radius: 12px;">
+<h2>What is DSL?</h2>
+<br>
+<b>Damn Small Linux is a very versatile 50MB mini desktop oriented Linux distribution.</b><br><br>
+Damn Small is small enough and smart enough to do the following things:
+<ul>
+<li>Boot from a business card CD as a live linux distribution (LiveCD)</li>
+<li>Boot from a USB pen drive</li>
+<li>Boot from within a host operating system (that's right, it can run *inside* Windows)</li>
+<li>Run very nicely from an IDE Compact Flash drive via a method we call "frugal install"</li>
+<li>Transform into a Debian OS with a traditional hard drive install</li>
+<li>Run light enough to power a 486DX with 16MB of Ram</li>
+<li>Run fully in RAM with as little as 128MB (you will be amazed at how fast your computer can be!)</li>
+<li>Modularly grow -- DSL is highly extendable without the need to customize</li>
+</ul>
+
+<ins id="aswift_0_expand" style="display:inline-table;border:none;height:15px;margin:0;padding:0;position:relative;visibility:visible;width:468px;background-color:transparent;"><ins id="aswift_0_anchor" style="display:block;border:none;height:15px;margin:0;padding:0;position:relative;visibility:visible;width:468px;background-color:transparent;"></ins></ins>
+
+<p>DSL was originally developed as an experiment to see how many usable desktop applications can fit inside a 50MB live CD.  It was at first just a personal tool/toy.  But over time Damn Small Linux grew into a community project with thousands of development hours put into refinements including a fully automated remote and local application installation system and a very versatile backup and restore system which may be used with any writable media including a USB device, floppy disk, or a hard drive.</p>
+
+<p>DSL has a nearly complete desktop,  and a tiny core of command line tools.  All applications have been chosen for the best balance of functionality, size and speed.  Damn Small also has the ability to act as an SSH/FTP/HTTPD server right off of a live CD. In our quest to save space and have a fully functional desktop we've made many GUI administration tools which are fast yet still easy to use.
+What does DSL have?</p>
+
+<p>XMMS (MP3, CD Music, and MPEG), FTP client, Dillo web browser, Netrik web browser, FireFox, spreadsheet, Sylpheed email, spellcheck (US English), a word-processor (Ted), three editors (Beaver, Vim, and Nano [Pico clone]), graphics editing and viewing (Xpaint, and xzgv), Xpdf (PDF Viewer), emelFM (file manager), Naim (AIM, ICQ, IRC), VNCviwer, Rdesktop, SSH/SCP server and client, DHCP client, PPP, PPPoE (ADSL), a web server, calculator, generic and GhostScript printer support, NFS, Fluxbox and JWM window managers, games, system monitoring apps, a host of command line tools, USB support, and pcmcia support, some wireless support.</p>
     </div>
-    <button onclick="location.href='https://cdn.glitch.com/f10839c8-1c91-46d1-b04c-87f5ad4cb9f3%2Fdsl.iso?v=1625341257987';" style="background: orange; padding: 20px; border-radius: 12px; width: 40%; position: absolute; top: 65%; left: 50%; transform: translate(-50%, -50%); cursor: pointer;">dsi.iso (50.4 MB)</button>
   </div>
+  <button onclick="startVM(); setTimeout(function(){document.getElementById('outer_content').onclick=focus_body;}, 10);" style="background: orange; padding: 20px; border-radius: 12px; width: 40%; position: absolute; top: 65%; left: 29%; transform: translate(-50%, -50%); cursor: pointer;">Try it now! (Click outside of VM to exit)</button>
+   <div style="border-left: 6px solid orange; border-radius: 12px;   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); height: 150px; z-index: 9999; position: absolute; top: 65%; left: 50%; transform: translate(-50%, -50%);"></div>
+<button onclick="location.href='download';" style="background: orange; padding: 20px; border-radius: 12px; width: 40%; position: absolute; top: 65%; left: 71%; transform: translate(-50%, -50%); cursor: pointer;">Download to keep it!</button>
+
+    </div>
+  </div>
+      </div>
+
 <script>
+  var dsm_running=0;
+  
+     var hide_vm=function(){
+      document.getElementById('content').style.opacity="100%";
+      document.getElementById('content').style.pointerEvents="auto"; 
+      document.querySelector('vm-instance').style.display="none";
+           document.querySelector('vm-instance').blur();
+    }
+  
+  function focus_body(){
+    if (dsm_running===1){
+   hide_vm();
+      document.getElementById('outer_content').onclick=null;
+    }
+  }
+  
+   
+      
+  function startVM(){
+      
+    if (dsm_running===0){
+      dsm_running=1;
+    document.getElementById('content').style.opacity='40%'; 
+    document.getElementById('content').style.pointerEvents='none';
+    var jsvm_instance = JSvm.createInstance();
+jsvm_instance.style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 4px 8px 0 orange, 0 6px 20px 0 orange;";
+JSvm.setCDRom(jsvm_instance, "https://cdn.glitch.com/f10839c8-1c91-46d1-b04c-87f5ad4cb9f3%2Fdsl.iso?v=1625341257987");
+document.body.appendChild(jsvm_instance);
+JSvm.checkForElements();
+    } else if (dsm_running===1){
+          document.getElementById('content').style.opacity='40%'; 
+    document.getElementById('content').style.pointerEvents='auto';
+      document.querySelector('vm-instance').style.display="block";
+    }
+    
+
+  }
+  
+  
 // When the user scrolls down 50px from the top of the document, resize the header's font size
 window.onscroll = function() {  if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
     document.getElementById("header").style.fontSize = "30px";
