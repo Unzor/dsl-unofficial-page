@@ -1,2 +1,2 @@
-# dsi-unofficial-page
+# dsl-unofficial-page
 An unnoficial page for Damn Small Linux.
